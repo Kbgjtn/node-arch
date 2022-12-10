@@ -1,0 +1,52 @@
+{
+    "name": "nodearch",
+    "version": "1.0.0",
+    "description": "",
+    "main": "lib/index.js",
+    "scripts": {
+        "dev:build": "tsc -p tsconfig-build.json",
+        "dev:watch": "nodemon --exec \"pnpm run dev:build && pnpm run dev:start\" --watch src --ext ts",
+        "dev:start": "node ./lib/index.js",
+        "lib:up": "pnpm update --latest",
+        "lint": "eslint '{src,test}/**/*.ts'",
+        "lint:fix": "eslint --fix '{src,test}/**/*.ts'",
+        "test": "jest --watchAll --collectCoverage"
+    },
+    "keywords": [
+        "node",
+        "typescript",
+        "eslint",
+        "prettier"
+    ],
+    "engines": {
+        "node": ">=12.0.0",
+        "npm": ">=6.7.0"
+    },
+    "author": "",
+    "license": "UNLICENSED",
+    "devDependencies": {
+        "@types/express": "^4.17.14",
+        "@types/jest": "^29.2.4",
+        "@types/mongodb": "^4.0.7",
+        "@types/node": "^18.11.12",
+        "@types/supertest": "^2.0.12",
+        "body-parser": "^1.20.1",
+        "dotenv": "^16.0.3",
+        "jest": "^29.3.1",
+        "mongodb": "^4.12.1",
+        "mongoose": "^6.8.0",
+        "nodemon": "^2.0.20",
+        "reflect-metadata": "^0.1.13",
+        "supertest": "^6.3.3",
+        "ts-jest": "^29.0.3",
+        "ts-node": "^10.9.1",
+        "typescript": "^4.9.4"
+    },
+    "dependencies": {
+        "@types/body-parser": "^1.19.2",
+        "express": "^4.18.2"
+    },
+    "_moduleAliases": {
+        "@": "lib"
+    }
+}
