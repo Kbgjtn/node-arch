@@ -52,6 +52,7 @@ lib
 .prettierrc*
 .travis.yml
 *.log
+*.env
 coverage
 README.md
 test

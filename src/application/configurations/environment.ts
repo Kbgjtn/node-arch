@@ -8,4 +8,7 @@ export const ENVIRONMENT = {
 		PORT: Number(process.env.PORT),
 		HOST: "http://localhost",
 	},
+	DB: {
+		MONGO_CONNECT_URI_STR: process.env.MONGODB_CONNECT_URI_STR as string,
+	},
 };

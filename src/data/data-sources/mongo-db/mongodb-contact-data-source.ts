@@ -22,7 +22,7 @@ export class MongoDBContactDataSource implements ContactDataSource {
 	}
 
 	async getOne(id: String): Promise<ContactResponseModel | null> {
-		const result = await this.database.find({ _id: id });
+		const result = await this.database.find({ id: id });
 		return result.map((item) => ({
 			id: item._id.toString(),
 			name: item.name,

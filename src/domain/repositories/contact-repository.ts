@@ -13,11 +13,11 @@ export class ContactRepositoryImpl implements ContactRepository {
 	}
 
 	async deleteContact(id: String): Promise<void> {
-		return await this.contactDataSource.deleteOne(id);
+		await this.contactDataSource.deleteOne(id);
 	}
 
 	async updateContact(id: String, data: ContactRequestModel): Promise<void> {
-		return await this.contactDataSource.updateOne(id, data);
+		await this.contactDataSource.updateOne(id, data);
 	}
 
 	async getContact(id: String): Promise<ContactResponseModel | null> {
@@ -26,7 +26,7 @@ export class ContactRepositoryImpl implements ContactRepository {
 	}
 
 	async createContact(contact: ContactRequestModel): Promise<void> {
-		return await this.contactDataSource.create(contact);
+		await this.contactDataSource.create(contact);
 	}
 
 	async getContacts(): Promise<ContactResponseModel[]> {

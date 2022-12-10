@@ -20,9 +20,13 @@ export default function ContactsRouter(
 
 	router.route("/").post(async (req: Request, res: Response) => {
 		try {
+			console.log("Hit Endopoint: 'contact/' :POST");
 			await createContactUseCase.execute(req.body);
 			res.status(201).json({ message: "Created" });
-		} catch (error) {
+		} catch (error: any) {
+			if (error) {
+				console.log({ message: error.message });
+			}
 			res.status(500).send({ message: "Error saving data" });
 		}
 	});
