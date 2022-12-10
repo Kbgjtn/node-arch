@@ -1,30 +1,31 @@
-// import { Request, Response, Router } from "express";
-// import { CreateContactUseCase } from "../../domain/interfaces/use-cases/contact/create-contact";
-// import { GetAllContactsUseCase } from "../../domain/interfaces/use-cases/contact/get-all-contacts";
+import { Request, Response, Router } from "express";
+import { CreateContactUseCase } from "../../domain/interfaces/use-cases/contact/create-contact-use-case";
+import { GetAllContactsUseCase } from "../../domain/interfaces/use-cases/contact/get-all-contacts-use-case";
 
-// export default function ContactsRouter(
-//     getAllContactsUseCase: GetAllContactsUseCase,
-//     createContactUseCase: CreateContactUseCase
-// ) {
-//     const router = Router();
+export default function ContactsRouter(
+	getAllContactsUseCase: GetAllContactsUseCase,
+	createContactUseCase: CreateContactUseCase
+) {
+	const router = Router();
 
-//     router.get("/", async (req: Request, res: Response) => {
-//         try {
-//             const contacts = await getAllContactsUseCase.execute();
-//             res.send(contacts);
-//         } catch (error) {
-//             res.status(500).send({ message: "Error fetching data" });
-//         }
-//     });
+	router.route("/").get(async (req: Request, res: Response) => {
+		try {
+			const contacts = await getAllContactsUseCase.execute();
+			console.log("Hit Endopoint: 'contact/' :GET");
+			res.send(contacts);
+		} catch (error) {
+			res.status(500).send({ message: "Error fetching data" });
+		}
+	});
 
-//     router.post("/", async (req: Request, res: Response) => {
-//         try {
-//             await createContactUseCase.execute(req.body);
-//             res.status(201).json({ message: "Created" });
-//         } catch (error) {
-//             res.status(500).send({ message: "Error saving data" });
-//         }
-//     });
+	router.route("/").post(async (req: Request, res: Response) => {
+		try {
+			await createContactUseCase.execute(req.body);
+			res.status(201).json({ message: "Created" });
+		} catch (error) {
+			res.status(500).send({ message: "Error saving data" });
+		}
+	});
 
-//     return router;
-// }
+	return router;
+}

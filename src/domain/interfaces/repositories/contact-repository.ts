@@ -1,6 +1,12 @@
-import { Contact } from "../../entities/contact";
+import {
+	ContactResponseModel,
+	ContactRequestModel,
+} from "@domain/models/contact";
 
 export interface ContactRepository {
-    createContact(contact: Contact): Promise<boolean>;
-    getContacts(): Promise<Contact[]>;
+	createContact(contact: ContactRequestModel): Promise<void>;
+	deleteContact(id: String): Promise<void>;
+	updateContact(id: String, data: ContactRequestModel): Promise<void>;
+	getContacts(): Promise<ContactResponseModel[]>;
+	getContact(id: String): Promise<ContactResponseModel | null>;
 }
