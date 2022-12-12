@@ -17,19 +17,55 @@ export default function ContactsRouter(
 ) {
 	const router = Router();
 
-	router.route("/:id").get(async (req: Request, res: Response) => {
-		const { id } = req.params;
-		console.log("Hit Endopoint: 'contacts/:id' :GET");
+	router
+		.route("/:id")
+		.get(async (req: Request, res: Response, next: NextFunction) => {
+			const { id } = req.params;
+			console.log("Hit Endopoint: 'contacts/:id' :GET");
+			try {
+				const contact = await getOneContactUseCase.execute(id);
+				res.status(200).json({
+					code: "200",
+					status: "OK",
+					timestamp: Date.now(),
+					data: contact || {},
+				});
+			} catch (error: any) {
+				if (error) {
+					console.log(error);
 
-		const contact = await getOneContactUseCase.execute(id);
-		res.status(200).json({ code: "200", status: "OK", contact });
-	});
+					if (
+						error.message ===
+						"Argument passed in must be a string of 12 bytes or a string of 24 hex characters or an integer"
+					) {
+						res.status(400).json({
+							code: "400",
+							status: "Bad Request",
+							timestamp: Date.now(),
+							errors: {
+								title: "ErrorInvalidID",
+								details: "params is not valid or not found",
+							},
+						});
+
+						return next();
+					}
+				}
+
+				res.status(500).json({ errors: {} });
+			}
+		});
 
 	router.route("/").get(async (_req: Request, res: Response) => {
 		console.log("Hit Endopoint: 'contacts/' :GET");
 		try {
 			const contacts = await getAllContactsUseCase.execute();
-			res.send(contacts);
+			res.status(200).json({
+				code: "200",
+				status: "OK",
+				timestamp: Date.now(),
+				data: { contacts: contacts || [], length: contacts.length },
+			});
 		} catch (error) {
 			if (error) {
 				console.log({ error });
@@ -43,26 +79,20 @@ export default function ContactsRouter(
 		.post(async (req: Request, res: Response, next: NextFunction) => {
 			console.log("Hit Endopoint: 'contacts/' :POST");
 			try {
-				const payload = await createOneContactSchema.validateAsync({
+				await createOneContactSchema.validateAsync({
 					name: req.body.name,
 				});
-
-				console.log({ payload });
-
-				if (payload.error) {
-					res.status(400).json({
-						status: "Bad Request",
-						code: "400",
-						message: payload.error,
-					});
-					return;
-				}
 
 				await createContactUseCase.execute({
 					name: capitalize(req.body.name),
 				});
 
-				res.status(201).json({ message: "Created" });
+				res.status(201).json({
+					status: "Created",
+					code: "201",
+					timestamp: Date.now(),
+					message: "Contact created successfully",
+				});
 			} catch (error: any) {
 				if (error) {
 					console.log(error);
@@ -71,18 +101,18 @@ export default function ContactsRouter(
 						res.status(400).json({
 							code: "400",
 							status: "Bad Request",
-
-							errors: [
-								{
-									title: error.name,
-									desc: error.message,
-									details: error.details,
-								},
-							],
+							timestamp: Date.now(),
+							errors: {
+								title: error.name,
+								desc: error.message,
+								details: error.details,
+							},
 						});
+
 						next(
 							new InvalidRequestPayloadError(error._original.name)
 						);
+
 						return;
 					}
 				}
@@ -104,6 +134,7 @@ export default function ContactsRouter(
 				await updateContactUseCase.execute(id, {
 					name: capitalize(name),
 				});
+
 				res.sendStatus(204);
 			} catch (error: any) {
 				if (error) {
@@ -117,6 +148,9 @@ export default function ContactsRouter(
 						"Argument passed in must be a string of 12 bytes or a string of 24 hex characters or an integer"
 					) {
 						res.status(400).json({
+							code: "400",
+							status: "Bad Request",
+							timestamp: Date.now(),
 							errors: {
 								title: "ErrorInvalidID",
 								details: "id is not valid or not found",
