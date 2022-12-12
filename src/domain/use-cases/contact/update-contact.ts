@@ -9,7 +9,7 @@ export class UpdateContact implements UpdateContactUseCase {
 		this.contactRepository = contactRepository;
 	}
 
-	async execute(id: String, data: ContactRequestModel): Promise<void> {
+	async execute(id: string, data: ContactRequestModel): Promise<void> {
 		return await this.contactRepository.updateContact(id, data);
 	}
 }

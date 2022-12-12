@@ -8,7 +8,7 @@ export class DeleteContact implements DeleteContactUseCase {
 		this.contactRepository = contactRepository;
 	}
 
-	async execute(id: String): Promise<void> {
+	async execute(id: string): Promise<void> {
 		return await this.contactRepository.deleteContact(id);
 	}
 }

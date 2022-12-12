@@ -31,7 +31,7 @@
 		"alwaysStrict": true,
 		"strictPropertyInitialization": false,
 		"noUnusedLocals": false,
-		"noUnusedParameters": false,
+		"noUnusedParameters": true,
 		"allowJs": false,
 
 		/* Linter Checking */
@@ -45,7 +45,7 @@
 		/* Completeness */
 		"skipLibCheck": true
 	},
-	"include": ["./src/**/**/*.ts", "./test/**/*.ts"],
+	"include": ["./src/**/*.ts", "./test/**/*.ts"],
 	"compileOnSave": false,
 	"exclude": ["tests", "lib", "node_modules"]
 }

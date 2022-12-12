@@ -9,10 +9,10 @@ export default function LandingPageRouter(router: Router) {
 			res.status(200).json({
 				status: "OK",
 				code: "200",
+				message: "I’m okay! 😁😁😁",
 				uptime: process.uptime(),
 				timestamp: Date.now(),
 				response_time: process.hrtime()[1],
-				message: "App is running pretty well! 😁😁😁",
 				links: {
 					self: `${req.protocol}://${req.get("host")}${
 						req.originalUrl

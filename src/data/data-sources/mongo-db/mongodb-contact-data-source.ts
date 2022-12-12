@@ -5,6 +5,7 @@ import {
 	ContactRequestModel,
 	ContactResponseModel,
 } from "@domain/models/contact";
+import { ObjectId } from "mongodb";
 
 export class MongoDBContactDataSource implements ContactDataSource {
 	private database: NoSQLDatabaseWrapper;
@@ -13,16 +14,18 @@ export class MongoDBContactDataSource implements ContactDataSource {
 		this.database = database;
 	}
 
-	async deleteOne(id: String): Promise<void> {
+	async deleteOne(id: string): Promise<void> {
 		await this.database.deleteOne(id);
 	}
 
-	async updateOne(id: String, data: ContactRequestModel): Promise<void> {
+	async updateOne(id: string, data: ContactRequestModel): Promise<void> {
 		await this.database.updateOne(id, data);
 	}
 
-	async getOne(id: String): Promise<ContactResponseModel | null> {
-		const result = await this.database.find({ id: id });
+	async getOne(id: string): Promise<ContactResponseModel | null> {
+		const result = await this.database.find({ _id: new ObjectId(id) });
+		console.log({ result });
+
 		return result.map((item) => ({
 			id: item._id.toString(),
 			name: item.name,
