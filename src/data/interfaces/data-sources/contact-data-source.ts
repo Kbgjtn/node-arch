@@ -6,7 +6,12 @@ import {
 export interface ContactDataSource {
 	create(contact: ContactRequestModel): Promise<void>;
 	getAll(): Promise<ContactResponseModel[]>;
-	deleteOne(id: String): Promise<void>;
-	updateOne(id: String, data: ContactRequestModel): Promise<void>;
-	getOne(id: String): Promise<ContactResponseModel | null>;
+	deleteOne(id: string): Promise<void>;
+	updateOne(id: string, data: ContactRequestModel): Promise<void>;
+	getOne(id: string): Promise<ContactResponseModel | null>;
+}
+
+export interface GetContactMongoDataSource {
+	DB_NAME: string;
+	COLLECTION: string;
 }

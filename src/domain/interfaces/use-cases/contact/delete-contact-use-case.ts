@@ -1,3 +1,3 @@
 export interface DeleteContactUseCase {
-	execute(id: String): Promise<void>;
+	execute(id: string): Promise<void>;
 }

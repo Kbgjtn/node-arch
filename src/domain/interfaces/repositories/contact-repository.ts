@@ -5,8 +5,8 @@ import {
 
 export interface ContactRepository {
 	createContact(contact: ContactRequestModel): Promise<void>;
-	deleteContact(id: String): Promise<void>;
-	updateContact(id: String, data: ContactRequestModel): Promise<void>;
+	deleteContact(id: string): Promise<void>;
+	updateContact(id: string, data: ContactRequestModel): Promise<void>;
 	getContacts(): Promise<ContactResponseModel[]>;
-	getContact(id: String): Promise<ContactResponseModel | null>;
+	getContact(id: string): Promise<ContactResponseModel | null>;
 }

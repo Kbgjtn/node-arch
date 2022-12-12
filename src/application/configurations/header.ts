@@ -11,7 +11,6 @@ export const header = (req: Request, res: Response, next: NextFunction) => {
 	// res.header("Access-Control-Allow-Headers", "Content-Type, Authorization");
 	res.header("Access-Control-Allow-Credentials", "true");
 	res.setHeader("X-Content-Type-Options", "nosniff");
-	console.log({ req: req.headers });
 	res.setHeader(
 		"Cache-control",
 		"no-cache, no-store, max-age=0, must-revalidate"

@@ -9,7 +9,7 @@ export class GetOneContact implements GetOneContactUseCase {
 		this.contactRepository = contactRepository;
 	}
 
-	async execute(id: String): Promise<ContactResponseModel | null> {
+	async execute(id: string): Promise<ContactResponseModel | null> {
 		const result = await this.contactRepository.getContact(id);
 		return result;
 	}

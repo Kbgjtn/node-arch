@@ -12,15 +12,15 @@ export class ContactRepositoryImpl implements ContactRepository {
 		this.contactDataSource = contactDataSource;
 	}
 
-	async deleteContact(id: String): Promise<void> {
+	async deleteContact(id: string): Promise<void> {
 		await this.contactDataSource.deleteOne(id);
 	}
 
-	async updateContact(id: String, data: ContactRequestModel): Promise<void> {
+	async updateContact(id: string, data: ContactRequestModel): Promise<void> {
 		await this.contactDataSource.updateOne(id, data);
 	}
 
-	async getContact(id: String): Promise<ContactResponseModel | null> {
+	async getContact(id: string): Promise<ContactResponseModel | null> {
 		const result = await this.contactDataSource.getOne(id);
 		return result;
 	}
