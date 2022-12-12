@@ -1,13 +1,37 @@
-import { createOneContactSchema } from "../../libs/utils/validator/contacts/create-one-contact";
 import { NextFunction, Request, Response, Router } from "express";
 import { capitalize } from "../../libs/utils/helpers/capitalize-first-Latter";
-import { CreateContactUseCase } from "../../domain/interfaces/use-cases/contact/create-contact-use-case";
-import { GetAllContactsUseCase } from "../../domain/interfaces/use-cases/contact/get-all-contacts-use-case";
+import { CreateContactUseCase } from "@/domain/interfaces/use-cases/contact/create-contact-use-case";
+import { GetAllContactsUseCase } from "@/domain/interfaces/use-cases/contact/get-all-contacts-use-case";
 import { InvalidRequestPayloadError } from "../../libs/utils/errors";
-import { GetOneContactUseCase } from "../../domain/interfaces/use-cases/contact/get-one-contact-use-case";
-import { UpdateContactUseCase } from "../../domain/interfaces/use-cases/contact/update-contact-use-case";
-import { DeleteContactUseCase } from "../../domain/interfaces/use-cases/contact/delete-contact-use-case";
+import { GetOneContactUseCase } from "@/domain/interfaces/use-cases/contact/get-one-contact-use-case";
+import { UpdateContactUseCase } from "@/domain/interfaces/use-cases/contact/update-contact-use-case";
+import { DeleteContactUseCase } from "@/domain/interfaces/use-cases/contact/delete-contact-use-case";
+import { createOneContactSchema } from "../../libs/utils/validator/contacts/create-one-contact";
 
+/**
+ * Creates a failable comutation from a function.
+ * The supplied function receives an object containing
+ * helper functions to create IFailable values. You
+ * need to give generic arguments T and E to it indicating
+ * the success and failure types.
+ *
+ * @param f Failable computation
+ *
+ * @example
+ * ```
+ * const computation1: () => Failable<string, string> = ...;
+ * const computation2: (x: string) => Failable<number, string> = ...;
+ * const computation3 = failable<number, string>(({ run, success, failure }) => {
+ *   const str = run(computation1());
+ *   const num = run(computation2(str));
+ *   if (num > 10) {
+ *     return success(num);
+ *   } else {
+ *     return failure("Number too small");
+ *   }
+ * })
+ * ```
+ */
 export default function ContactsRouter(
 	getOneContactUseCase: GetOneContactUseCase,
 	getAllContactsUseCase: GetAllContactsUseCase,

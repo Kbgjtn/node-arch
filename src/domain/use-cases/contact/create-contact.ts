@@ -1,6 +1,6 @@
 import { ContactRepository } from "../../interfaces/repositories/contact-repository";
 import { CreateContactUseCase } from "../../interfaces/use-cases/contact/create-contact-use-case";
-import { ContactRequestModel } from "@domain/models/contact";
+import { ContactRequestModel } from "@/domain/models/contact";
 
 export class CreateContact implements CreateContactUseCase {
 	contactRepository: ContactRepository;
