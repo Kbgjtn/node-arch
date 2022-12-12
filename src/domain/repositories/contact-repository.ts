@@ -1,9 +1,6 @@
-import {
-	ContactRequestModel,
-	ContactResponseModel,
-} from "@domain/models/contact";
-import { ContactDataSource } from "../../data/interfaces/data-sources/contact-data-source";
+import { ContactDataSource } from "@/data/interfaces/data-sources/contact-data-source";
 import { ContactRepository } from "../interfaces/repositories/contact-repository";
+import { ContactRequestModel, ContactResponseModel } from "../models/contact";
 
 export class ContactRepositoryImpl implements ContactRepository {
 	contactDataSource: ContactDataSource;

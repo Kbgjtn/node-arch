@@ -10,17 +10,19 @@ import { GetContactMongoDataSource } from "./data/interfaces/data-sources/contac
 import { GetOneContact } from "./domain/use-cases/contact/get-one-contact";
 import { DeleteContact } from "./domain/use-cases/contact/delete-contact";
 import { UpdateContact } from "./domain/use-cases/contact/update-contact";
-import { ContactRequestModel } from "@domain/models/contact";
+import { ContactRequestModel } from "./domain/models/contact";
 
+/* 
 async function listDatabases(client: MongoClient) {
 	const databasesList = await client.db().admin().listDatabases();
 	console.log("Databases: ");
-	// databasesList.databases.forEach((db: any) => {
-	// 	if (db) {
-	// 		console.log("- " + db.name);
-	// 	}
-	// });
+	databasesList.databases.forEach((db: any) => {
+		if (db) {
+			console.log("- " + db.name);
+		}
+	});
 }
+*/
 
 const pool = process.argv.length >= 3 ? parseInt(process.argv[2]) : 1;
 
@@ -41,7 +43,7 @@ async function getMongoDataSource(
 	};
 
 	const client: MongoClient = new MongoClient(
-		ENVIRONMENT.DB.MONGO_CONNECT_URI_STR!,
+		ENVIRONMENT.DB.MONGO_CONNECT_URI_STR,
 		options as MongoClientOptions
 	);
 
@@ -58,7 +60,6 @@ async function getMongoDataSource(
 
 		contactDatabase = {
 			find: async (query) => {
-				console.log(query);
 				return await db
 					.collection(params.COLLECTION)
 					.find(query)
@@ -67,17 +68,16 @@ async function getMongoDataSource(
 			insertOne: async (doc) => {
 				await db.collection(params.COLLECTION).insertOne(doc);
 			},
-			deleteOne: async (id: String) => {
+			deleteOne: async (id: string) => {
 				await db
 					.collection(params.COLLECTION)
-					.deleteOne({ _id: new ObjectId(id.toString()) });
+					.deleteOne({ _id: new ObjectId(id) });
 			},
-			updateOne: async (id: String, data: ContactRequestModel) => {
-				console.log(data);
+			updateOne: async (id: string, data: ContactRequestModel) => {
 				await db
 					.collection(params.COLLECTION)
 					.updateOne(
-						{ _id: new ObjectId(id.toString()) },
+						{ _id: new ObjectId(id) },
 						{ $set: { name: data.name } }
 					);
 			},
@@ -111,7 +111,7 @@ const start = async () => {
 
 	app.use("/v1/contacts", contactMiddleware);
 
-	const SERVER = app.listen(ENVIRONMENT.API.PORT, () =>
+	app.listen(ENVIRONMENT.API.PORT, () =>
 		console.log(
 			`[ App is running on pid: ${process.pid} | ${ENVIRONMENT.API.HOST}:${ENVIRONMENT.API.PORT} ]`
 		)

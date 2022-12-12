@@ -6,15 +6,18 @@
 
 		/* Modules */
 		"module": "commonjs",
-		"baseUrl": "./",
 		"moduleResolution": "node",
 		"rootDirs": ["./src", "./tests"],
 		"outDir": "./lib",
+		"baseUrl": "./src",
 		"paths": {
+			"@/*": ["*"],
+			"@lib:": ["lib/*"],
 			"@test/*": ["test/*"],
-			"@application/*": ["src/api/*"],
-			"@domain/*": ["src/domain/*"],
-			"@/*": ["src/*"]
+			"@application/*": ["api/*"],
+			"@configurations/*": ["application/configurations/*"],
+			"@middlewares/*": ["application/middlewares/*"],
+			"@domain/*": ["domain/*"]
 		},
 		"types": ["node", "jest"],
 		"removeComments": true,

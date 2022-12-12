@@ -1,7 +1,7 @@
 import {
 	ContactRequestModel,
 	ContactResponseModel,
-} from "@domain/models/contact";
+} from "@/domain/models/contact";
 
 export interface ContactDataSource {
 	create(contact: ContactRequestModel): Promise<void>;

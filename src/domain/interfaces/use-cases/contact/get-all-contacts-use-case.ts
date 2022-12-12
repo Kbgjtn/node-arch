@@ -1,4 +1,4 @@
-import { ContactResponseModel } from "@domain/models/contact";
+import { ContactResponseModel } from "@/domain/models/contact"; 
 
 export interface GetAllContactsUseCase {
 	execute(): Promise<ContactResponseModel[]>;

@@ -1,11 +1,11 @@
-import { ContactDataSource } from "../../interfaces/data-sources/contact-data-source";
-import { Contact } from "../../../domain/entities/contact";
+import { ContactDataSource } from "@/data/interfaces/data-sources/contact-data-source";
 import { NoSQLDatabaseWrapper } from "@/data/interfaces/data-sources/nosql-database-wrapper";
+
+import { ObjectId } from "mongodb";
 import {
 	ContactRequestModel,
 	ContactResponseModel,
-} from "@domain/models/contact";
-import { ObjectId } from "mongodb";
+} from "@/domain/models/contact";
 
 export class MongoDBContactDataSource implements ContactDataSource {
 	private database: NoSQLDatabaseWrapper;
@@ -24,7 +24,6 @@ export class MongoDBContactDataSource implements ContactDataSource {
 
 	async getOne(id: string): Promise<ContactResponseModel | null> {
 		const result = await this.database.find({ _id: new ObjectId(id) });
-		console.log({ result });
 
 		return result.map((item) => ({
 			id: item._id.toString(),

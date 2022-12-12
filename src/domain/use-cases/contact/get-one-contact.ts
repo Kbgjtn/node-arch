@@ -1,6 +1,6 @@
-import { ContactResponseModel } from "@domain/models/contact";
-import { ContactRepository } from "@domain/interfaces/repositories/contact-repository";
-import { GetOneContactUseCase } from "@domain/interfaces/use-cases/contact/get-one-contact-use-case";
+import { ContactResponseModel } from "@/domain/models/contact";
+import { ContactRepository } from "@/domain/interfaces/repositories/contact-repository";
+import { GetOneContactUseCase } from "@/domain/interfaces/use-cases/contact/get-one-contact-use-case";
 
 export class GetOneContact implements GetOneContactUseCase {
 	contactRepository: ContactRepository;
