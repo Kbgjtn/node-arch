@@ -12,12 +12,6 @@
 		"baseUrl": "./src",
 		"paths": {
 			"@/*": ["*"],
-			"@lib:": ["lib/*"],
-			"@test/*": ["test/*"],
-			"@application/*": ["api/*"],
-			"@configurations/*": ["application/configurations/*"],
-			"@middlewares/*": ["application/middlewares/*"],
-			"@domain/*": ["domain/*"]
 		},
 		"types": ["node", "jest"],
 		"removeComments": true,
