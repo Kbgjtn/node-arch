@@ -35,6 +35,7 @@ pids
 
 # App data
 .docker
+.docker/docker-compose.yml
 
 .env
 node_modules
