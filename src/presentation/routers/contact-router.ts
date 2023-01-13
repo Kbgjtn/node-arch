@@ -1,13 +1,12 @@
-import { NextFunction, Request, Response, Router } from "express";
-import { capitalize } from "../../libs/utils/helpers/capitalize-first-Latter";
 import { CreateContactUseCase } from "@/domain/interfaces/use-cases/contact/create-contact-use-case";
+import { DeleteContactUseCase } from "@/domain/interfaces/use-cases/contact/delete-contact-use-case";
 import { GetAllContactsUseCase } from "@/domain/interfaces/use-cases/contact/get-all-contacts-use-case";
-import { InvalidRequestPayloadError } from "../../libs/utils/errors";
 import { GetOneContactUseCase } from "@/domain/interfaces/use-cases/contact/get-one-contact-use-case";
 import { UpdateContactUseCase } from "@/domain/interfaces/use-cases/contact/update-contact-use-case";
-import { DeleteContactUseCase } from "@/domain/interfaces/use-cases/contact/delete-contact-use-case";
-import { createOneContactSchema } from "../../libs/utils/validator/contacts/create-one-contact";
-
+import { NextFunction, Request, Response, Router } from "express";
+import { InvalidRequestPayloadError } from "../../utils/errors";
+import { capitalize } from "../../utils/helpers";
+import { createOneContactSchema } from "../../validation/create-one-contact";
 /**
  * Creates a failable comutation from a function.
  * The supplied function receives an object containing
@@ -32,182 +31,188 @@ import { createOneContactSchema } from "../../libs/utils/validator/contacts/crea
  * })
  * ```
  */
-export default function ContactsRouter(
-	getOneContactUseCase: GetOneContactUseCase,
-	getAllContactsUseCase: GetAllContactsUseCase,
-	createContactUseCase: CreateContactUseCase,
-	updateContactUseCase: UpdateContactUseCase,
-	deleteContactUseCase: DeleteContactUseCase
-) {
-	const router = Router();
+export function ContactsRouter({
+  getOneContactUseCase,
+  getAllContactsUseCase,
+  createContactUseCase,
+  updateContactUseCase,
+  deleteContactUseCase,
+}: HandlerContactRouterArgs) {
+  const router = Router();
 
-	router
-		.route("/:id")
-		.get(async (req: Request, res: Response, next: NextFunction) => {
-			const { id } = req.params;
-			console.log("Hit Endopoint: 'contacts/:id' :GET");
-			try {
-				const contact = await getOneContactUseCase.execute(id);
-				res.status(200).json({
-					code: "200",
-					status: "OK",
-					timestamp: Date.now(),
-					data: contact || {},
-				});
-			} catch (error: any) {
-				if (error) {
-					console.log(error);
+  router
+    .route("/:id")
+    .get(async (req: Request, res: Response, next: NextFunction) => {
+      const { id } = req.params;
+      console.log("Hit Endopoint: 'contacts/:id' :GET");
+      try {
+        const contact = await getOneContactUseCase.execute(id);
+        res.status(200).json({
+          code: "200",
+          status: "OK",
+          timestamp: Date.now(),
+          data: contact || {},
+        });
+      } catch (error: any) {
+        if (error) {
+          console.log(error);
 
-					if (
-						error.message ===
-						"Argument passed in must be a string of 12 bytes or a string of 24 hex characters or an integer"
-					) {
-						res.status(400).json({
-							code: "400",
-							status: "Bad Request",
-							timestamp: Date.now(),
-							errors: {
-								title: "ErrorInvalidID",
-								details: "params is not valid or not found",
-							},
-						});
+          if (
+            error.message ===
+            "Argument passed in must be a string of 12 bytes or a string of 24 hex characters or an integer"
+          ) {
+            res.status(400).json({
+              code: "400",
+              status: "Bad Request",
+              timestamp: Date.now(),
+              errors: {
+                title: "ErrorInvalidID",
+                details: "params is not valid or not found",
+              },
+            });
 
-						return next();
-					}
-				}
+            return next();
+          }
+        }
 
-				res.status(500).json({ errors: {} });
-			}
-		});
+        res.status(500).json({ errors: {} });
+      }
+    });
 
-	router.route("/").get(async (_req: Request, res: Response) => {
-		console.log("Hit Endopoint: 'contacts/' :GET");
-		try {
-			const contacts = await getAllContactsUseCase.execute();
-			res.status(200).json({
-				code: "200",
-				status: "OK",
-				timestamp: Date.now(),
-				data: { contacts: contacts || [], length: contacts.length },
-			});
-		} catch (error) {
-			if (error) {
-				console.log({ error });
-			}
-			res.status(500).send({ message: "Error fetching data" });
-		}
-	});
+  router.route("/").get(async (_req: Request, res: Response) => {
+    console.log("Hit Endopoint: 'contacts/' :GET");
+    try {
+      const contacts = await getAllContactsUseCase.execute();
+      res.status(200).json({
+        code: "200",
+        status: "OK",
+        timestamp: Date.now(),
+        data: { contacts: contacts || [], length: contacts.length },
+      });
+    } catch (error) {
+      if (error) {
+        console.log({ error });
+      }
+      res.status(500).send({ message: "Error fetching data" });
+    }
+  });
 
-	router
-		.route("/")
-		.post(async (req: Request, res: Response, next: NextFunction) => {
-			console.log("Hit Endopoint: 'contacts/' :POST");
-			try {
-				await createOneContactSchema.validateAsync({
-					name: req.body.name,
-				});
+  router
+    .route("/")
+    .post(async (req: Request, res: Response, next: NextFunction) => {
+      console.log("Hit Endopoint: 'contacts/' :POST");
+      try {
+        await createOneContactSchema.validateAsync({
+          name: req.body.name,
+        });
 
-				await createContactUseCase.execute({
-					name: capitalize(req.body.name),
-				});
+        await createContactUseCase.execute({
+          name: capitalize(req.body.name),
+        });
 
-				res.status(201).json({
-					status: "Created",
-					code: "201",
-					timestamp: Date.now(),
-					message: "Contact created successfully",
-				});
-			} catch (error: any) {
-				if (error) {
-					console.log(error);
+        res.status(201).json({
+          status: "Created",
+          code: "201",
+          timestamp: Date.now(),
+          message: "Contact created successfully",
+        });
+      } catch (error: any) {
+        if (error) {
+          console.log(error);
 
-					if (error.isJoi) {
-						res.status(400).json({
-							code: "400",
-							status: "Bad Request",
-							timestamp: Date.now(),
-							errors: {
-								title: error.name,
-								desc: error.message,
-								details: error.details,
-							},
-						});
+          if (error.isJoi) {
+            res.status(400).json({
+              code: "400",
+              status: "Bad Request",
+              timestamp: Date.now(),
+              errors: {
+                title: error.name,
+                desc: error.message,
+                details: error.details,
+              },
+            });
 
-						next(
-							new InvalidRequestPayloadError(error._original.name)
-						);
+            next(new InvalidRequestPayloadError(error._original.name));
 
-						return;
-					}
-				}
+            return;
+          }
+        }
 
-				res.status(500).send({
-					message: "Error saving data",
-				});
-			}
-		});
+        res.status(500).send({
+          message: "Error saving data",
+        });
+      }
+    });
 
-	router
-		.route("/:id")
-		.put(async (req: Request, res: Response, next: NextFunction) => {
-			console.log("Hit Endopoint: 'contacts/:id' :PUT");
-			try {
-				const { id } = req.params;
-				const { name } = req.body;
+  router
+    .route("/:id")
+    .put(async (req: Request, res: Response, next: NextFunction) => {
+      console.log("Hit Endopoint: 'contacts/:id' :PUT");
+      try {
+        const { id } = req.params;
+        const { name } = req.body;
 
-				await updateContactUseCase.execute(id, {
-					name: capitalize(name),
-				});
+        await updateContactUseCase.execute(id, {
+          name: capitalize(name),
+        });
 
-				res.sendStatus(204);
-			} catch (error: any) {
-				if (error) {
-					console.log({
-						message: error.message,
-						stack: error.stack,
-					});
+        res.sendStatus(204);
+      } catch (error: any) {
+        if (error) {
+          console.log({
+            message: error.message,
+            stack: error.stack,
+          });
 
-					if (
-						error.message ===
-						"Argument passed in must be a string of 12 bytes or a string of 24 hex characters or an integer"
-					) {
-						res.status(400).json({
-							code: "400",
-							status: "Bad Request",
-							timestamp: Date.now(),
-							errors: {
-								title: "ErrorInvalidID",
-								details: "id is not valid or not found",
-							},
-						});
+          if (
+            error.message ===
+            "Argument passed in must be a string of 12 bytes or a string of 24 hex characters or an integer"
+          ) {
+            res.status(400).json({
+              code: "400",
+              status: "Bad Request",
+              timestamp: Date.now(),
+              errors: {
+                title: "ErrorInvalidID",
+                details: "id is not valid or not found",
+              },
+            });
 
-						return next();
-					}
-				}
+            return next();
+          }
+        }
 
-				res.status(500).json({ message: "cannot update changes" });
-				next();
-			}
-		});
+        res.status(500).json({ message: "cannot update changes" });
+        next();
+      }
+    });
 
-	router
-		.route("/:id")
-		.delete(async (req: Request, res: Response, next: NextFunction) => {
-			console.log("Hit Endopoint: 'contacts/:id' :DELETE");
-			try {
-				const { id } = req.params;
+  router
+    .route("/:id")
+    .delete(async (req: Request, res: Response, next: NextFunction) => {
+      console.log("Hit Endopoint: 'contacts/:id' :DELETE");
+      try {
+        const { id } = req.params;
 
-				await deleteContactUseCase.execute(id);
-				res.sendStatus(204);
-			} catch (error) {
-				if (error) {
-					console.log(error);
-				}
+        await deleteContactUseCase.execute(id);
+        res.sendStatus(204);
+      } catch (error) {
+        if (error) {
+          console.log(error);
+        }
 
-				res.sendStatus(500);
-				next();
-			}
-		});
+        res.sendStatus(500);
+        next();
+      }
+    });
 
-	return router;
+  return router;
 }
+
+type HandlerContactRouterArgs = {
+  getOneContactUseCase: GetOneContactUseCase;
+  getAllContactsUseCase: GetAllContactsUseCase;
+  createContactUseCase: CreateContactUseCase;
+  updateContactUseCase: UpdateContactUseCase;
+  deleteContactUseCase: DeleteContactUseCase;
+};

@@ -1,6 +1,6 @@
 import { QuoteDataSource } from "@/data/interfaces/data-sources/quote-data-source";
-import { QuoteRepository } from "../interfaces/repositories/quote-repository";
-import { QuoteRequestModel, QuoteResponseModel } from "../models/quote";
+import { QuoteRepository } from "@/domain/interfaces/repositories/quote-repository";
+import { QuoteRequestModel, QuoteResponseModel } from "@/domain/models/quote";
 
 export class QuoteRepositoryImpl implements QuoteRepository {
 	quoteDataSource: QuoteDataSource;

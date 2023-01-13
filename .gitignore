@@ -3,12 +3,17 @@ node_modules
 .pnp
 .pnp.js
 .npm
+.pnpm
+.pnpm.js
+.pnpm
 
 # Testing
 coverage
 
 # Production
+out
 lib
+dist
 
 # Misc
 .DS_Store

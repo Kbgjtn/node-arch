@@ -3,13 +3,13 @@ import { CreateQuotesUseCase } from "@/domain/interfaces/use-cases/quote/create-
 import { QuoteRequestModel } from "@/domain/models/quote";
 
 export class CreateQuotes implements CreateQuotesUseCase {
-	quoteRepository: QuoteRepository;
+  quoteRepository: QuoteRepository;
 
-	constructor(quoteRepository: QuoteRepository) {
-		this.quoteRepository = quoteRepository;
-	}
+  constructor(quoteRepository: QuoteRepository) {
+    this.quoteRepository = quoteRepository;
+  }
 
-	async execute(quotes: QuoteRequestModel[]): Promise<void> {
-		return await this.quoteRepository.createQuotes(quotes);
-	}
+  async execute(quotes: QuoteRequestModel[]): Promise<void> {
+    return await this.quoteRepository.createQuotes(quotes);
+  }
 }

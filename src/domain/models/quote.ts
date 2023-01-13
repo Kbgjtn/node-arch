@@ -1,4 +1,4 @@
-import { Author, Genre } from "../entities/quote";
+import { Author, Genre } from "@/domain/entities/quote";
 
 export interface QuoteRequestModel {
 	author: Author;

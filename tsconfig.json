@@ -1,54 +1,56 @@
 {
-	"compilerOptions": {
-		/* Language and Environment */
-		"target": "ES2020",
-		"lib": ["ES2020"],
+  "compilerOptions": {
+    /* Language and Environment */
+    "target": "ES2021",
+    "lib": ["ES2021"],
 
-		/* Modules */
-		"module": "commonjs",
-		"moduleResolution": "node",
-		"rootDirs": ["./src", "./tests"],
-		"outDir": "./lib",
-		"baseUrl": "./src",
-		"paths": {
-			"@/*": ["*"],
-			"@lib:": ["lib/*"],
-			"@test/*": ["test/*"],
-			"@application/*": ["api/*"],
-			"@configurations/*": ["application/configurations/*"],
-			"@middlewares/*": ["application/middlewares/*"],
-			"@domain/*": ["domain/*"]
-		},
-		"types": ["node", "jest"],
-		"removeComments": true,
-		"allowSyntheticDefaultImports": true,
-		"esModuleInterop": true,
-		"forceConsistentCasingInFileNames": true,
-		"listEmittedFiles": false,
-		"listFiles": false,
-		"resolveJsonModule": true,
-		"traceResolution": false,
+    /* Modules */
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "rootDirs": ["./src", "./tests"],
+    "outDir": "./out",
+    "baseUrl": "./src",
+    "paths": {
+      "@/test/*": ["../test/*"],
+      "@/domain/*": ["domain/*"],
+      "@/application/*": ["application/*"],
+      "@/data/*": ["data/*"],
+      "@/presentation/*": ["presentation/*"],
+      "@/infra/*": ["infra/*"],
+      "@/validation/*": ["validation/*"],
+      "@/utils/*": ["utils/*"]
+    },
+    "types": ["node", "jest", "express"],
+    "removeComments": true,
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "listEmittedFiles": false,
+    "listFiles": false,
+    "resolveJsonModule": true,
+    "traceResolution": false,
 
-		/* Type Checking */
-		"strict": true,
-		"alwaysStrict": true,
-		"strictPropertyInitialization": false,
-		"noUnusedLocals": false,
-		"noUnusedParameters": true,
-		"allowJs": false,
+    /* Type Checking */
+    "strict": true,
+    "alwaysStrict": true,
+    "strictPropertyInitialization": false,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "allowJs": false,
 
-		/* Linter Checking */
-		"noImplicitReturns": true,
-		"noFallthroughCasesInSwitch": true,
-		"experimentalDecorators": true,
-		"emitDecoratorMetadata": true,
-		"sourceMap": true,
-		"pretty": true,
+    /* Linter Checking */
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "sourceMap": true,
+    "pretty": true,
+    "declaration": false,
 
-		/* Completeness */
-		"skipLibCheck": true
-	},
-	"include": ["./src/**/*.ts", "./test/**/*.ts"],
-	"compileOnSave": false,
-	"exclude": ["tests", "lib", "node_modules"]
+    /* Completeness */
+    "skipLibCheck": true
+  },
+  "include": ["./src/**/*", "./test/**/*.ts"],
+  "compileOnSave": false,
+  "exclude": ["tests", "lib", "node_modules"]
 }

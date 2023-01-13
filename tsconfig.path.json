@@ -1,0 +1,28 @@
+{
+	"compilerOptions": {
+		"baseUrl": "./",
+		"paths": {
+			"@test/*": ["test/*"],
+			"@src/*": ["src/*"],
+			"@application/*": ["src/application/*", "src/application"],
+			"@data/*": ["./src/data/*"],
+			"@data-source/*": ["./src/data/data-source/*"],
+			"@interfaces-ds/*": ["./src/data/interfaces/*"],
+			"@domain/*": ["./src/domain/*"],
+			"@entities/*": ["./src/domain/entities/*"],
+			"@interfaces/*": ["./src/domain/interfaces/*"],
+			"@models/*": ["./src/domain/models/*"],
+			"@repositories/*": ["./src/domain/repositories/*"],
+			"@use-cases/*": ["./src/domain/use-cases/*"],
+			"@presentation/*": ["./src/presentation/*"],
+			"@db/*": ["./src/presentation/db/*"],
+			"@middlewares-presentation/*": ["./src/presentation/middlewares/*"],
+			"@routers/*": ["./src/presentation/routers/*"],
+			"@utils/*": ["./src/utils/*"],
+			"@errors/*": ["./src/utils/errors/*"],
+			"@helpers/*": ["./src/utils/helpers/*"],
+			"@validator/*": ["./src/utils/validator/*"]
+			// "@presentation/*": ["src/presentation/*"],
+		}
+	}
+}

@@ -1,6 +1,6 @@
-import { ContactResponseModel } from "@/domain/models/contact";
 import { ContactRepository } from "@/domain/interfaces/repositories/contact-repository";
 import { GetAllContactsUseCase } from "@/domain/interfaces/use-cases/contact/get-all-contacts-use-case";
+import { ContactResponseModel } from "@/domain/models/contact";
 
 export class GetAllContacts implements GetAllContactsUseCase {
 	contactRepository: ContactRepository;

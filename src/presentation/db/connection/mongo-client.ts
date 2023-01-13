@@ -1,10 +1,10 @@
 import { Db, MongoClient, MongoClientOptions, ObjectId } from "mongodb";
-import { environment } from "../../../application/configurations";
+import { environment } from "../../../application/configuration/environment";
 
 /**
- * Creates a new connection to mongoDB from a function.
+ * Create a new connection to mongoDB from a function.
  * The supplied function receives an object containing
- * helper functions to create IFailable values.
+ * all method which database is using according to entities
  * You need to give name, collection, and size of pool DB
  *
  * @param dbName database name
@@ -29,13 +29,15 @@ export async function connectMongoDataSource<T>({
 	options,
 }: HandleMongoDataSourceArgs): Promise<T> {
 	const client = new MongoClient(
-		environment.db.mongoConnectUriString,
+		environment.db.mongoConnectURIString,
 		options as MongoClientOptions
 	) as MongoClient;
 
-	console.log(options);
-
-	await client.connect();
+	try {
+		await client.connect();
+	} catch (error) {
+		console.log(error);
+	}
 
 	const db = client.db(dbName) as Db;
 
